@@ -20,7 +20,7 @@ const reducer = (state: CalculatorState, action: ActionType): CalculatorState =>
       if (action.digit === '0' && state.currentOperand === '0') return state;
       return { ...state, currentOperand: `${state.currentOperand || ''}${action.digit}` };
 
-    case 'SET_OPERAND': // Hantera textinmatning
+    case 'SET_OPERAND': 
       return { ...state, currentOperand: action.payload };
 
     case 'CHOOSE_OPERATION':
