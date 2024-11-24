@@ -1,8 +1,24 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 
 interface ChuckNorrisButtonProps {
-  apiKey: string; 
+  apiKey: string;
 }
+
+const StyledButton = styled.button`
+  background-color: #f44336; 
+  color: white; 
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #d32f2f; /* Mörkare röd när du hovrar */
+  }
+`;
 
 const ChuckNorrisButton: React.FC<ChuckNorrisButtonProps> = ({ apiKey }) => {
   const [joke, setJoke] = useState<string | null>(null);
@@ -21,7 +37,7 @@ const ChuckNorrisButton: React.FC<ChuckNorrisButtonProps> = ({ apiKey }) => {
 
   return (
     <div>
-      <button onClick={fetchJoke}>Chuck Norris Joke</button>
+      <StyledButton onClick={fetchJoke}>Chuck Norris Joke</StyledButton>
       {joke && <p>{joke}</p>}
     </div>
   );

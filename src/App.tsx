@@ -1,11 +1,31 @@
-// App.tsx
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import ChuckNorrisButton from './ChuckNorrisButton';
 import Display from './Display';
 import Button from './Button';
 import ClearButton from './ClearButton';
 
 const apiKey = import.meta.env.VITE_API_KEY;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+`;
+
+const CalculatorGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 10px;
+  margin-top: 20px;
+`;
+
+const ChuckButtonWrapper = styled.div`
+  margin-top: 20px;
+  text-align: center;
+`;
 
 const App: React.FC = () => {
   const [calcValue, setCalcValue] = useState<string>(''); 
@@ -17,7 +37,7 @@ const App: React.FC = () => {
 
   const clearDisplay = () => {
     setCalcValue('');
-    setJoke(null); // Rensa skämtet när kalkylatorn rensas
+    setJoke(null);
   };
 
   const calculate = () => {
@@ -28,24 +48,12 @@ const App: React.FC = () => {
     }
   };
 
-  const fetchJoke = async () => {
-    try {
-      const response = await fetch('https://api.api-ninjas.com/v1/chucknorris', {
-        headers: { 'X-Api-Key': apiKey },
-      });
-      const data = await response.json();
-      setJoke(data.joke);
-    } catch (error) {
-      console.error('Kunde inte hämta skämtet:', error);
-    }
-  };
-
   return (
-    <div>
-      <h1>Kalkylator</h1>
-      <Display value={calcValue || (joke || 'Välj en funktion')} />
+    <Wrapper>
+      <h1>Calculator + Chuck Norris Jokes</h1>
+      <Display value={calcValue || (joke || 'Do some math or get a chuck norris joke')} />
       
-      <div className="calculator-buttons">
+      <CalculatorGrid>
         <Button label="1" onClick={() => handleButtonClick('1')} />
         <Button label="2" onClick={() => handleButtonClick('2')} />
         <Button label="3" onClick={() => handleButtonClick('3')} />
@@ -56,17 +64,22 @@ const App: React.FC = () => {
         <Button label="8" onClick={() => handleButtonClick('8')} />
         <Button label="9" onClick={() => handleButtonClick('9')} />
         <Button label="0" onClick={() => handleButtonClick('0')} />
+      </CalculatorGrid>
+
+      <CalculatorGrid>
         <Button label="+" onClick={() => handleButtonClick('+')} />
         <Button label="-" onClick={() => handleButtonClick('-')} />
         <Button label="*" onClick={() => handleButtonClick('*')} />
         <Button label="/" onClick={() => handleButtonClick('/')} />
         <Button label="=" onClick={calculate} />
         <ClearButton onClear={clearDisplay} />
-      </div>
-      
-      <button onClick={fetchJoke}>Get Chuck Norris Joke</button>
-      {joke && <p>{joke}</p>}
-    </div>
+      </CalculatorGrid>
+
+      <ChuckButtonWrapper>
+        <ChuckNorrisButton apiKey={apiKey} />
+        {joke && <p>{joke}</p>}
+      </ChuckButtonWrapper>
+    </Wrapper>
   );
 };
 
